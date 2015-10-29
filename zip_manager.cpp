@@ -110,10 +110,10 @@ int ZipManager::Unzip(string zipfile) {
 	  string fail_path(unz_fail_path_ + '/' + zipfile + ".zip");
 		if (rename(zipfile_fullname.c_str(), fail_path.c_str()) == -1)
 			printf("Error moving the failed-unzipped zip file %s from "
-					   "inqueue_path to unz_fail_path", zipfile_fullname.c_str());
-	}
+             "inqueue_path to unz_fail_path", zipfile_fullname.c_str());
+  }
   unzClose(uf);
-	return err_code;
+  return err_code;
 }
 
 /** Zip all the files in dir_to_zip to one zip file. If failed, the 
