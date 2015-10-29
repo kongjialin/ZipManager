@@ -3,7 +3,7 @@ MINIZIP_PATH = $(ZLIB_PATH)/contrib/minizip
 CFLAGS = -I$(MINIZIP_PATH)
 
 ZIP_UNZ_OBJS = test.o zip_manager.o $(MINIZIP_PATH)/unzip.o $(MINIZIP_PATH)/ioapi.o\
-							 $(MINIZIP_PATH)/zip.o $(ZLIB_PATH)/libz.a
+               $(MINIZIP_PATH)/zip.o $(ZLIB_PATH)/libz.a
 
 .c.o:
 	g++ -c $(CFLAGS) *.cpp
