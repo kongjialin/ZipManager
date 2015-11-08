@@ -102,6 +102,7 @@ int ZipManager::Unzip(string zipfile) {
     string extract_path(unz_out_path_ + '/' + zipfile);
     err = DoExtract(uf, extract_path);
     if (err) { // failed unzip
+      printf("Error in unzipping %s\n", zipfile_fullname.c_str());//////////////
       // remove the unzipped directory having error from unz_out_path
       if (Removedir(extract_path.c_str()) == -1)
         printf("Error removing the failed unzipped directory %s from "
@@ -164,7 +165,8 @@ int ZipManager::Zip(const string& dir_to_zip, const vector<string>& files) {
       if (entity_dir_exist) {
         err = FindFilesToZip(entity_dir, entity_files);
       } else { // entity directory doesn't exist
-        printf("Entity dirctory doesn't exist!\n");
+        printf("Entity dirctory doesn't exist in directory %s\n",
+           absolute_dir.c_str());//////////////
         err = -1;
       }
     } else { // error in opening dir_to_zip
@@ -199,7 +201,13 @@ int ZipManager::Zip(const string& dir_to_zip, const vector<string>& files) {
       zipClose(zf, NULL); // NULL or 0?
     }
   }
+  // delete the corresponding direcotry under unz_out_path
+  if (Removedir(absolute_dir.c_str()) == -1)
+    printf("Error in deleting the directory %s after zipping(succeed or fail)"
+        "from unz_out_path\n", absolute_dir.c_str());
+
   if (err) { // any error happens in the whole zip procedure
+    printf("Error in zipping %s\n", absolute_dir.c_str());/////////
   // delete the incomplete zip file having error from dest_path
     if (unlink(zipfile_name.c_str()) && errno != ENOENT)
       printf("Error deleting the failed zip file %s in dest_path: %s\n",
@@ -219,11 +227,6 @@ int ZipManager::Zip(const string& dir_to_zip, const vector<string>& files) {
           "%s to %s: %s\n", zipfile_name.c_str(), finished.c_str(),
           strerror(errno));
   }
-  // delete the corresponding direcotry under unz_out_path
-  if (Removedir(absolute_dir.c_str()) == -1)
-    printf("Error in deleting the directory %s after zipping(succeed or fail)"
-        "from unz_out_path\n", absolute_dir.c_str());
-
   return err;
 }
 
