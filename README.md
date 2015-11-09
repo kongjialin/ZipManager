@@ -62,8 +62,7 @@ ZipManager
     upload--(success)--> the zip file in dest is moved to backup                 
 
 
-There are two queues (thread-safe queue) needed: **prepare** and **inprocessing
-**.  
+There are two queues (thread-safe queue) needed: **prepare** and **inprocessing**.  
 A `scan thread` finds a zip file in the source, checks and confirm this zip file is not in the **inprocessing** queue, and pushes the file name into the **prepare** queue.  
 Many `worker threads` pop a file from the **prepare** queue and push it into the **inprocessing** queue, and begin unzipping it, then doing other processing work on the unzipped files. When processing done, the directory is zipped and the file in **inprocessing** queue is poped (with the file moved from source/ to success/).  
 An `upload thread` scans the generated zipped files and upload them to a sftp server.
