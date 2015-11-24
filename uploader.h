@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "curl.h"
+
 using std::string;
 using std::vector;
 
@@ -16,6 +18,7 @@ class Uploader {
   int SFTPUpload(const string& file_to_upload);
   int ScanZip(vector<string>& zipfiles);
  private:
+  CURL* InitCurl();
   string sftp_url_with_pwd_; // sftp url with password (MUST end with '/')
   string path_;              // Path of zip files to upload
   string backup_path_;       // Path for backuping the successfully uploaded zip files 
